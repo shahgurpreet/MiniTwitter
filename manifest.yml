@@ -4,3 +4,4 @@ applications:
   memory: 128M
   instances: 1
   random-route: true
+  path: target/minitwitter-0.0.1-SNAPSHOT.war
