@@ -22,6 +22,20 @@ public class AppController {
         this.appService = appService;
     }
 
+    @RequestMapping("/")
+    public String showInfo() {
+        String name = getUsername();
+        return "Hi " + name + ", Welcome to Mini Twitter App!" + "<br>" + "<br>"+
+                "Here are the list of endpoints for you to use" + "<br>" +
+                "/getPosts : to see your and your followers' posts" + "<br>" +
+                "/getPosts?search={search_term} : to see your and your followers' posts filtered based on your search term" + "<br>" +
+                "/followUser?username={username} : to follow a user" + "<br>" +
+                "/unfollowUser?username={username} : to unfollow a user" + "<br>"+
+                "/logout : to logout" + "<br>" + "<br>" +
+                "Thanks, have fun!";
+
+    }
+
     @RequestMapping("/getPosts")
     public List<PostResult> getPosts(@RequestParam(required = false) String search) {
         String name = getUsername();
