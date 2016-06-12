@@ -23,6 +23,9 @@ public class AuthConfig  extends WebSecurityConfigurerAdapter {
                     .anyRequest().hasRole("USER")
                     .and()
                 .formLogin()
+                    .permitAll()
+                    .and()
+                .logout()
                     .permitAll();
     }
 
