@@ -1,0 +1,6 @@
+.idea/
+.mvn/
+MiniTwitter.iml
+mvnw
+mvnw.cmd
+target/
