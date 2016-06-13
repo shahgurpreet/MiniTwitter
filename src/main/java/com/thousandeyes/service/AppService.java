@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class AppService {
 
@@ -27,6 +26,14 @@ public class AppService {
         this.userDao = userDao;
     }
 
+    /**
+     * takes the username and the optional search keyword and returns all the posts of that
+     * username and the users he follows.
+     * @param name username
+     * @param search search keyword
+     * @return returns posts for the given username
+     * @throws IllegalStateException if user id does not exist
+     */
     public List<PostResult> getAllPosts(String name, String search) {
         Optional<User> user = userDao.getUserId(name);
         int userId = user.map(userObject -> userObject.getId())
@@ -40,6 +47,13 @@ public class AppService {
         return getPostResults(users, posts, search);
     }
 
+    /**
+     * helper function - returns the posts filtered on the search keyword(if present) to getAllPosts()
+     * @param users list of users
+     * @param posts list of posts
+     * @param search search keyword
+     * @return posts of the input users
+     */
     private List<PostResult> getPostResults(List<User> users, List<Post> posts, String search) {
         Map<Integer, String> userMap = users
                 .stream()
@@ -56,10 +70,18 @@ public class AppService {
         return postResults;
     }
 
+    /**
+     * to follow user, and do checks if the user to be followed is already being followed, or
+     * does not exist or if user tries to follow itself
+     * @param following username of the user who wants to follow
+     * @param toBeFollowed username of the user who is to be followed
+     * @return success or failure message
+     * @throws IllegalStateException if following username is not present
+     */
     public String followUser(String following, String toBeFollowed) {
 
         Optional<User> followingUser = userDao.getUserId(following);
-        int followingId = followingUser.map(userObject -> userObject.getId())
+        int followingId = followingUser.map(User::getId)
                 .orElseThrow(IllegalStateException::new);
 
         Optional<User> toBeFollowedUser = userDao.getUserId(toBeFollowed);
@@ -86,10 +108,18 @@ public class AppService {
                 });
     }
 
+    /**
+     * to unfollow user, and do checks if the user to be unfollowed is already being unfollowed, or
+     * does not exist or if user tries to unfollow itself
+     * @param following username of the user who wants to unfollow
+     * @param tobeUnfollowed username of the user who is to be unfollowed
+     * @return success or failure message
+     * @throws IllegalStateException if following username is not present
+     */
     public String unfollowUser(String following, String tobeUnfollowed) {
 
         Optional<User> followingUser = userDao.getUserId(following);
-        int followingId = followingUser.map(userObject -> userObject.getId())
+        int followingId = followingUser.map(User::getId)
                 .orElseThrow(IllegalStateException::new);
 
         Optional<User> toBeUnfollowedUser = userDao.getUserId(tobeUnfollowed);

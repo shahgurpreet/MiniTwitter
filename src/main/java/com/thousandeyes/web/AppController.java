@@ -22,6 +22,10 @@ public class AppController {
         this.appService = appService;
     }
 
+    /**
+     * show welcome message and endpoint instructions if login is successful
+     * @return
+     */
     @RequestMapping("/")
     public String showInfo() {
         String name = getUsername();
@@ -36,12 +40,23 @@ public class AppController {
 
     }
 
+    /**
+     * endpoint to get all posts for a username and optional keyword
+     * @param search
+     * @return
+     */
     @RequestMapping("/getPosts")
     public List<PostResult> getPosts(@RequestParam(required = false) String search) {
         String name = getUsername();
         return appService.getAllPosts(name, search);
     }
 
+
+    /**
+     * endpoint to make logged in user follow a username
+     * @param username
+     * @return
+     */
     @RequestMapping("/followUser")
     public Result followUser(@RequestParam String username) {
         String name = getUsername();
@@ -54,6 +69,12 @@ public class AppController {
         }
     }
 
+
+    /**
+     * endpoint to make logged in user unfollow a username
+     * @param username
+     * @return
+     */
     @RequestMapping("/unfollowUser")
     public Result unfollowUser(@RequestParam String username) {
         String name = getUsername();
@@ -65,6 +86,11 @@ public class AppController {
         }
     }
 
+
+    /**
+     * to get logged in user's username from the current context
+     * @return
+     */
     private String getUsername() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth.getName();

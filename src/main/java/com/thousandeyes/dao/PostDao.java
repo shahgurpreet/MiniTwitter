@@ -23,6 +23,11 @@ public class PostDao {
         this.jdbcTemplateObject = jdbcTemplateObject;
     }
 
+    /**
+     * to get all the posts from the post table for a given list of user ids
+     * @param userIds a list of user ids
+     * @return list of posts for the input user ids
+     */
     public List<Post> getAll(List<Integer> userIds) {
 
         MapSqlParameterSource paramaters = new MapSqlParameterSource();
